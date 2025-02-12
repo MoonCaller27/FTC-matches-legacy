@@ -29,6 +29,5 @@ Input a team number and event code to be displayed and click Open.
 
 ![image](https://user-images.githubusercontent.com/42128680/210491730-bceaf6fe-7910-49eb-8b68-a8f726ba23cf.png)
 
-> Note: Currently an event MUST be from the 2023 season.
 
 Event codes can be found at (https://ftc-events.firstinspires.org). You can type your team number in the search bar at the top and select an event you want (again, currently only from the 2023 season).
