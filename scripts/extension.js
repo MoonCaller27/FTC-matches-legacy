@@ -58,12 +58,12 @@ export function FTCMatchOpener() {
   };
 
   return (
-    <div>
+    
       <input type="text" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Team Number" />
       <span>{teamErr}</span>
       <input type="text" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Event Code" />
       <span>{codeErr}</span>
       <button onClick={openSite}>Submit</button>
-    </div>
+
   );
 }
