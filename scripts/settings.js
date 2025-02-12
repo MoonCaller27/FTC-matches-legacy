@@ -1,26 +1,73 @@
-function save(){
-    chrome.storage.sync.set({
-        username: document.getElementById("username").value,
-        token: document.getElementById("token").value,
-        refresh: document.getElementById("refresh").value
-      }, function(){
-        document.getElementById("status").textContent = "Saved!";
-        setTimeout(function(){
-            document.getElementById("status").textContent = "";
-        }, 1000)
-      });
-}
-function loadOptions(){
-    document.getElementById("username").value="eeeeeeeeee";
-    chrome.storage.sync.get({
+import React, { useState, useEffect } from 'react';
+
+const Settings = () => {
+  const [username, setUsername] = useState('');
+  const [token, setToken] = useState('');
+  const [refresh, setRefresh] = useState(30);
+  const [status, setStatus] = useState('');
+  useEffect(() => {
+    chrome.storage.sync.get(
+      {
+        username: '',
+        token: '',
         refresh: 30,
-        username: "",
-        token: ""
-      }, function(items) {
-        document.getElementById("username").value = items.username;
-        document.getElementById("token").value = items.token;
-        document.getElementById("refresh").value = items.refresh;
-      });
-}
-document.addEventListener('DOMContentLoaded', loadOptions);
-document.getElementById("submit").addEventListener("click", save);
+      },
+      (items) => {
+        setUsername(items.username);
+        setToken(items.token);
+        setRefresh(items.refresh);
+      }
+    );
+  }, []);
+  const save = () => {
+    chrome.storage.sync.set(
+      {
+        username: username,
+        token: token,
+        refresh: refresh,
+      },
+      () => {
+        setStatus('Saved!');
+        setTimeout(() => {
+          setStatus('');
+        }, 1000);
+      }
+    );
+  };
+
+  return (
+    <div>
+      <h1>Settings</h1>
+      <label>
+        Username:
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Token:
+        <input
+          type="text"
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Refresh Interval:
+        <input
+          type="number"
+          value={refresh}
+          onChange={(e) => setRefresh(Number(e.target.value))}
+        />
+      </label>
+      <br />
+      <button onClick={save}>Save</button>
+      {status && <p>{status}</p>}
+    </div>
+  );
+};
+export default Settings;
