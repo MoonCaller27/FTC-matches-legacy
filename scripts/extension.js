@@ -1,50 +1,69 @@
-document.getElementById("submit").addEventListener("click", openSite);
-const team = document.getElementById("team");
-const teamErr = document.getElementById("team-error");
-const code = document.getElementById("code");
-const codeErr = document.getElementById("code-error");
-const regex = new RegExp("^[0-9]+$");
-async function openSite(){
-  teamErr.textContent="";
-  codeErr.textContent="";
-  let bad = false;
-  if(team.value.trim() == ""){
-    bad = true;
-    teamErr.textContent = "Team number is blank."
-  }else if(!regex.test(team.value)){
-    bad = true;
-    teamErr.textContent = "Team number is not a number."
-  }
-  if(code.value.trim() == ""){
-    bad = true;
-    codeErr.textContent = "Event code is blank."
-  }
-  if(!bad){
-    var event = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/events?eventCode="+code.value.trim() })
-    var tm = await chrome.runtime.sendMessage({ url: "https://ftc-api.firstinspires.org/v2.0/2023/teams?teamNumber="+team.value.trim() })
-    if(tm.error != undefined){
+import React, { useState } from "react";
+
+export function FTCMatchOpener() {
+  const [team, setTeam] = useState("");
+  const [code, setCode] = useState("");
+  const [teamErr, setTeamErr] = useState("");
+  const [codeErr, setCodeErr] = useState("");
+  const regex = /^[0-9]+$/;
+
+  const openSite = async () => {
+    setTeamErr("");
+    setCodeErr("");
+    let bad = false;
+
+    if (team.trim() === "") {
       bad = true;
-      if(tm.error == "400") {
-        teamErr.textContent = "Invalid team number";
-      }else {
-        teamErr.textContent = "An unknown error occurred: "+tm.error;
+      setTeamErr("Team number is blank.");
+    } else if (!regex.test(team)) {
+      bad = true;
+      setTeamErr("Team number is not a number.");
+    }
+
+    if (code.trim() === "") {
+      bad = true;
+      setCodeErr("Event code is blank.");
+    }
+
+    if (!bad) {
+      try {
+        const event = await chrome.runtime.sendMessage({
+          url: `https://ftc-api.firstinspires.org/v2.0/2023/events?eventCode=${code.trim()}`,
+        });
+        const tm = await chrome.runtime.sendMessage({
+          url: `https://ftc-api.firstinspires.org/v2.0/2023/teams?teamNumber=${team.trim()}`,
+        });
+
+        if (tm.error) {
+          bad = true;
+          setTeamErr(tm.error === "400" ? "Invalid team number" : `An unknown error occurred: ${tm.error}`);
+        }
+
+        if (event.error) {
+          bad = true;
+          setCodeErr(event.error === "404" ? "Invalid event code" : `An unknown error occurred: ${event.error}`);
+        }
+
+        if (!bad) {
+          const wind = window.open("/index.html", "", "popup");
+          wind.num = team.trim();
+          wind.teamName = tm.teams[0].nameShort;
+          wind.evCode = code.trim();
+          wind.evName = event.events[0].name;
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
       }
     }
-    if(event.error != undefined){
-      bad = true;
-      if(event.error == "404") {
-        codeErr.textContent = "Invalid event code";
-      }else {
-        codeErr.textContent = "An unknown error occurred: "+event.error;
-      }
-    }
-    if(!bad){
-      const wind = window.open("/index.html", "", "popup");
-      wind.num = team.value.trim();
-      wind.teamName = tm.teams[0].nameShort;
-      wind.evCode = code.value.trim();
-      wind.evName = event.events[0].name;
-    }
-  }
-  // const wind = window.open("/index.html", "", "popup");
+  };
+
+  return (
+    <div>
+      <input type="text" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Team Number" />
+      <span>{teamErr}</span>
+      <input type="text" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Event Code" />
+      <span>{codeErr}</span>
+      <button onClick={openSite}>Submit</button>
+    </div>
+  );
 }
