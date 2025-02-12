@@ -59,9 +59,20 @@ export function FTCMatchOpener() {
 
   return (
     
-      <input type="text" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Team Number" />
+      <input 
+        type="text" 
+        value={team} 
+        onChange={(e) => setTeam(e.target.value)} 
+        placeholder="Team Number"
+      />
       <span>{teamErr}</span>
-      <input type="text" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Event Code" />
+
+      <input 
+        type="text" 
+        value={code} 
+        onChange={(e) => setCode(e.target.value)} 
+        placeholder="Event Code"
+      />
       <span>{codeErr}</span>
       <button onClick={openSite}>Submit</button>
 
