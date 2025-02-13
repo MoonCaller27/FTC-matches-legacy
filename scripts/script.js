@@ -45,7 +45,7 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
 
   const fetchAPI = async (endpoint) => {
     try {
-      const response = await fetch(`https://ftc-api.firstinspires.org/v2.0/2023/${endpoint}`);
+      const response = await fetch(`https://ftc-api.firstinspires.org/v2.0/2024/${endpoint}`);
       return await response.json();
     } catch (err) {
       return null;
