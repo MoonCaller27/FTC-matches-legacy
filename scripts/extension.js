@@ -28,10 +28,10 @@ export function FTCMatchOpener() {
     if (!bad) {
       try {
         const event = await chrome.runtime.sendMessage({
-          url: `https://ftc-api.firstinspires.org/v2.0/2023/events?eventCode=${code.trim()}`,
+          url: `https://ftc-api.firstinspires.org/v2.0/2024/events?eventCode=${code.trim()}`,
         });
         const tm = await chrome.runtime.sendMessage({
-          url: `https://ftc-api.firstinspires.org/v2.0/2023/teams?teamNumber=${team.trim()}`,
+          url: `https://ftc-api.firstinspires.org/v2.0/2024/teams?teamNumber=${team.trim()}`,
         });
 
         if (tm.error) {
