@@ -1,5 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
+ReactDOM.render(<FTCMatchOpener />, document.getElementById("root"));
 export function DivWithClassAndText({ className, text }) {
   return <div className={className}>{text}</div>;
 }
