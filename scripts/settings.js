@@ -5,6 +5,7 @@ const Settings = () => {
   const [token, setToken] = useState('');
   const [refresh, setRefresh] = useState(30);
   const [status, setStatus] = useState('');
+
   useEffect(() => {
     chrome.storage.sync.get(
       {
@@ -19,6 +20,7 @@ const Settings = () => {
       }
     );
   }, []);
+
   const save = () => {
     chrome.storage.sync.set(
       {
@@ -35,39 +37,50 @@ const Settings = () => {
     );
   };
 
-  return (
-    <div>
-      <h1>Settings</h1>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Token:
-        <input
-          type="text"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Refresh Interval:
-        <input
-          type="number"
-          value={refresh}
-          onChange={(e) => setRefresh(Number(e.target.value))}
-        />
-      </label>
-      <br />
-      <button onClick={save}>Save</button>
-      {status && <p>{status}</p>}
-    </div>
+  return React.createElement(
+    'div',
+    null,
+    React.createElement('h1', null, 'Settings'),
+    React.createElement(
+      'label',
+      null,
+      'Username:',
+      React.createElement('input', {
+        type: 'text',
+        value: username,
+        onChange: (e) => setUsername(e.target.value),
+      })
+    ),
+    React.createElement('br', null),
+    React.createElement(
+      'label',
+      null,
+      'Token:',
+      React.createElement('input', {
+        type: 'text',
+        value: token,
+        onChange: (e) => setToken(e.target.value),
+      })
+    ),
+    React.createElement('br', null),
+    React.createElement(
+      'label',
+      null,
+      'Refresh Interval:',
+      React.createElement('input', {
+        type: 'number',
+        value: refresh,
+        onChange: (e) => setRefresh(Number(e.target.value)),
+      })
+    ),
+    React.createElement('br', null),
+    React.createElement(
+      'button',
+      { onClick: save },
+      'Save'
+    ),
+    status && React.createElement('p', null, status)
   );
 };
+
 export default Settings;
