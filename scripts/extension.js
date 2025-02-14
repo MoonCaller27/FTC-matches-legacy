@@ -58,6 +58,7 @@ export function FTCMatchOpener() {
   };
 
   return (
+    <div>
     //kaden, this is a js file. not jsx.
       <input 
         type="text" 
@@ -76,6 +77,6 @@ export function FTCMatchOpener() {
       />
       <span>{codeErr}</span>
       <button onClick={openSite}>Submit</button>
-
+  </div>
   );
 }
