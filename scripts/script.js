@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
+ReactDOM.render(<FTCMatchOpener />, document.getElementById("root"));
 const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
   const [teamSchedule, setTeamSchedule] = useState([]);
   const [allSchedule, setAllSchedule] = useState([]);
