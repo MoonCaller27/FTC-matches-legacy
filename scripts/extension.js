@@ -59,29 +59,41 @@ export function FTCMatchOpener() {
     }
   };
 
-  return (
-    <>
-      <div>
-        <input
-          type="text"
-          id="team"
-          value={team}
-          onChange={(e) => setTeam(e.target.value)}
-          placeholder="Team Number"
-        />
-        <span id="team-error" style={{ color: "red" }}>{teamErr}</span>
-      </div>
-      <div>
-        <input
-          type="text"
-          id="code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Event Code"
-        />
-        <span id="code-error" style={{ color: "red" }}>{codeErr}</span>
-      </div>
-      <button id="submit" onClick={openSite}>Submit</button>
-    </>
+  return React.createElement(
+    React.Fragment,
+    null,
+    React.createElement(
+      "div",
+      null,
+      React.createElement("input", {
+        type: "text",
+        id: "team",
+        value: team,
+        onChange: (e) => setTeam(e.target.value),
+        placeholder: "Team Number",
+      }),
+      React.createElement(
+        "span",
+        { id: "team-error", style: { color: "red" } },
+        teamErr
+      )
+    ),
+    React.createElement(
+      "div",
+      null,
+      React.createElement("input", {
+        type: "text",
+        id: "code",
+        value: code,
+        onChange: (e) => setCode(e.target.value),
+        placeholder: "Event Code",
+      }),
+      React.createElement(
+        "span",
+        { id: "code-error", style: { color: "red" } },
+        codeErr
+      )
+    ),
+    React.createElement("button", { id: "submit", onClick: openSite }, "Submit")
   );
 }
