@@ -58,13 +58,14 @@ export function FTCMatchOpener() {
   };
 
   return (
-    
+    //kaden, this is a js file. not jsx.
       <input 
         type="text" 
         value={team} 
         onChange={(e) => setTeam(e.target.value)} 
         placeholder="Team Number"
       />
+   // <input type="text" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Team Number" />
       <span>{teamErr}</span>
 
       <input 
