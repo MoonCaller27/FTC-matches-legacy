@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 export function FTCMatchOpener() {
   const [team, setTeam] = useState("");
   const [teamErr, setTeamErr] = useState("");
@@ -59,41 +57,21 @@ export function FTCMatchOpener() {
     }
   };
 
-  return React.createElement(
-    React.Fragment,
-    null,
-    React.createElement(
-      "div",
-      null,
-      React.createElement("input", {
-        type: "text",
-        id: "team",
-        value: team,
-        onChange: (e) => setTeam(e.target.value),
-        placeholder: "Team Number",
-      }),
-      React.createElement(
-        "span",
-        { id: "team-error", style: { color: "red" } },
-        teamErr
-      )
-    ),
-    React.createElement(
-      "div",
-      null,
-      React.createElement("input", {
-        type: "text",
-        id: "code",
-        value: code,
-        onChange: (e) => setCode(e.target.value),
-        placeholder: "Event Code",
-      }),
-      React.createElement(
-        "span",
-        { id: "code-error", style: { color: "red" } },
-        codeErr
-      )
-    ),
-    React.createElement("button", { id: "submit", onClick: openSite }, "Submit")
+  return React.createElement(React.Fragment, null,
+    React.createElement("input", {
+      type: "text",
+      value: team,
+      onChange: (e) => setTeam(e.target.value),
+      placeholder: "Team Number"
+    }),
+    React.createElement("span", { style: { color: "red" } }, teamErr),
+    React.createElement("input", {
+      type: "text",
+      value: code,
+      onChange: (e) => setCode(e.target.value),
+      placeholder: "Event Code"
+    }),
+    React.createElement("span", { style: { color: "red" } }, codeErr),
+    React.createElement("button", { onClick: openSite }, "Submit")
   );
 }
