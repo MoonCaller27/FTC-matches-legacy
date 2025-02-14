@@ -62,7 +62,6 @@ export function FTCMatchOpener() {
   };
 
   return (
-    <div>
       <input
         type="text"
         id="team"
@@ -82,6 +81,5 @@ export function FTCMatchOpener() {
       <span id="code-error" style={{ color: "red" }}>{codeErr}</span>
 
       <button id="submit" onClick={openSite}>Submit</button>
-    </div>
   );
 }
