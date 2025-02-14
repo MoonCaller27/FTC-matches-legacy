@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 
+ReactDOM.render(<FTCMatchOpener />, document.getElementById("root"));
 export function TwoTeamMatch({ matchData, teamNumber, rankList }) {
   const [redScore, setRedScore] = useState(matchData.redScore);
   const [blueScore, setBlueScore] = useState(matchData.blueScore);
