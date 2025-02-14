@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 const DigitalClock = () => {
   const [time, setTime] = useState(new Date());
   const [digits, setDigits] = useState(["0", "0", "0", "0", "0", "0"]);
@@ -43,14 +41,30 @@ const DigitalClock = () => {
     return () => clearInterval(interval);
   }, [digits]);
 
-  return (
-    <div id="dt" style={{ display: "flex", fontSize: "2rem" }}>
-      {digits.map((digit, index) => (
-        <span key={index} style={{ color: colors[index], margin: "0 5px" }}>
-          {digit}
-        </span>
-      ))}
-    </div>
+  const digitElements = digits.map((digit, index) =>
+    React.createElement(
+      "span",
+      {
+        key: index,
+        style: {
+          color: colors[index],
+          margin: "0 5px",
+        },
+      },
+      digit
+    )
+  );
+
+  return React.createElement(
+    "div",
+    {
+      id: "dt",
+      style: {
+        display: "flex",
+        fontSize: "2rem",
+      },
+    },
+    ...digitElements
   );
 };
 
