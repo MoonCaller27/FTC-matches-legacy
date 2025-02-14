@@ -1,18 +1,20 @@
-import React from "react";
 export function DivWithClassAndText({ className, text }) {
-  return <div className={className}>{text}</div>;
+  return React.createElement("div", { className: className }, text);
 }
 
-
 export function TeamDiv({ colorClass, teamNumber, teamName, isBold }) {
-  return (
-    <div className={`${colorClass} team`}>
-      <span className={isBold ? "bold" : ""}>{teamNumber}</span>
-      <DivWithClassAndText className="team-name" text={teamName} />
-    </div>
+  return React.createElement(
+    "div",
+    { className: `${colorClass} team` },
+    React.createElement(
+      "span",
+      { className: isBold ? "bold" : "" },
+      teamNumber
+    ),
+    React.createElement(DivWithClassAndText, { className: "team-name", text: teamName })
   );
 }
 
 export function Divider() {
-  return <div className="divider"></div>;
+  return React.createElement("div", { className: "divider" });
 }
