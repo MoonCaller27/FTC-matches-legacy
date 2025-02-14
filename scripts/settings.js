@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 const Settings = () => {
   const [username, setUsername] = useState('');
   const [token, setToken] = useState('');
