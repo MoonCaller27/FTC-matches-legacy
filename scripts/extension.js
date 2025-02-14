@@ -1,54 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
 
 export function FTCMatchOpener() {
-  const [team, setTeam] = useState("");
-  const [code, setCode] = useState("");
-  const [teamErr, setTeamErr] = useState("");
-  const [codeErr, setCodeErr] = useState("");
   const regex = /^[0-9]+$/;
 
   const openSite = async () => {
-    setTeamErr("");
-    setCodeErr("");
+    // Get input values
+    const teamInput = document.getElementById("teamInput").value.trim();
+    const codeInput = document.getElementById("codeInput").value.trim();
+    const teamErr = document.getElementById("teamErr");
+    const codeErr = document.getElementById("codeErr");
+
+    // Clear previous errors
+    teamErr.textContent = "";
+    codeErr.textContent = "";
     let bad = false;
 
-    if (team.trim() === "") {
+    // Validate team number
+    if (teamInput === "") {
       bad = true;
-      setTeamErr("Team number is blank.");
-    } else if (!regex.test(team)) {
+      teamErr.textContent = "Team number is blank.";
+    } else if (!regex.test(teamInput)) {
       bad = true;
-      setTeamErr("Team number is not a number.");
+      teamErr.textContent = "Team number is not a number.";
     }
 
-    if (code.trim() === "") {
+    // Validate event code
+    if (codeInput === "") {
       bad = true;
-      setCodeErr("Event code is blank.");
+      codeErr.textContent = "Event code is blank.";
     }
 
     if (!bad) {
       try {
         const event = await chrome.runtime.sendMessage({
-          url: `https://ftc-api.firstinspires.org/v2.0/2024/events?eventCode=${code.trim()}`,
+          url: `https://ftc-api.firstinspires.org/v2.0/2024/events?eventCode=${codeInput}`,
         });
         const tm = await chrome.runtime.sendMessage({
-          url: `https://ftc-api.firstinspires.org/v2.0/2024/teams?teamNumber=${team.trim()}`,
+          url: `https://ftc-api.firstinspires.org/v2.0/2024/teams?teamNumber=${teamInput}`,
         });
 
         if (tm.error) {
           bad = true;
-          setTeamErr(tm.error === "400" ? "Invalid team number" : `An unknown error occurred: ${tm.error}`);
+          teamErr.textContent = tm.error === "400" ? "Invalid team number" : `An unknown error occurred: ${tm.error}`;
         }
 
         if (event.error) {
           bad = true;
-          setCodeErr(event.error === "404" ? "Invalid event code" : `An unknown error occurred: ${event.error}`);
+          codeErr.textContent = event.error === "404" ? "Invalid event code" : `An unknown error occurred: ${event.error}`;
         }
 
         if (!bad) {
           const wind = window.open("/index.html", "", "popup");
-          wind.num = team.trim();
+          wind.num = teamInput;
           wind.teamName = tm.teams[0].nameShort;
-          wind.evCode = code.trim();
+          wind.evCode = codeInput;
           wind.evName = event.events[0].name;
         }
       } catch (error) {
@@ -59,24 +64,13 @@ export function FTCMatchOpener() {
 
   return (
     <div>
-    //kaden, this is a js file. not jsx.
-      <input 
-        type="text" 
-        value={team} 
-        onChange={(e) => setTeam(e.target.value)} 
-        placeholder="Team Number"
-      />
-   // <input type="text" value={team} onChange={(e) => setTeam(e.target.value)} placeholder="Team Number" />
-      <span>{teamErr}</span>
+      <input type="text" id="teamInput" placeholder="Team Number" />
+      <span id="teamErr" style={{ color: "red" }}></span>
 
-      <input 
-        type="text" 
-        value={code} 
-        onChange={(e) => setCode(e.target.value)} 
-        placeholder="Event Code"
-      />
-      <span>{codeErr}</span>
+      <input type="text" id="codeInput" placeholder="Event Code" />
+      <span id="codeErr" style={{ color: "red" }}></span>
+
       <button onClick={openSite}>Submit</button>
-  </div>
+    </div>
   );
 }
