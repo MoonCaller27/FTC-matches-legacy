@@ -13,7 +13,6 @@ export function FTCMatchOpener() {
     setCodeErr("");
     let bad = false;
 
-    // Validate team number
     if (team.trim() === "") {
       bad = true;
       setTeamErr("Team number is blank.");
@@ -22,7 +21,6 @@ export function FTCMatchOpener() {
       setTeamErr("Team number is not a number.");
     }
 
-    // Validate event code
     if (code.trim() === "") {
       bad = true;
       setCodeErr("Event code is blank.");
@@ -62,24 +60,28 @@ export function FTCMatchOpener() {
   };
 
   return (
-      <input
-        type="text"
-        id="team"
-        value={team}
-        onChange={(e) => setTeam(e.target.value)}
-        placeholder="Team Number"
-      />
-      <span id="team-error" style={{ color: "red" }}>{teamErr}</span>
-
-      <input
-        type="text"
-        id="code"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        placeholder="Event Code"
-      />
-      <span id="code-error" style={{ color: "red" }}>{codeErr}</span>
-
+    <>
+      <div>
+        <input
+          type="text"
+          id="team"
+          value={team}
+          onChange={(e) => setTeam(e.target.value)}
+          placeholder="Team Number"
+        />
+        <span id="team-error" style={{ color: "red" }}>{teamErr}</span>
+      </div>
+      <div>
+        <input
+          type="text"
+          id="code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="Event Code"
+        />
+        <span id="code-error" style={{ color: "red" }}>{codeErr}</span>
+      </div>
       <button id="submit" onClick={openSite}>Submit</button>
+    </>
   );
 }
