@@ -66,15 +66,15 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
     }
   };
 
-  return (
-    <div>
-      <h1>{teamNumber} - {teamName}</h1>
-      <h2>{eventName}</h2>
-      {error ? <p>Error fetching data</p> : <p>Data loaded successfully</p>}
-      <div id="scroll-container-a" ref={scrollARef}></div>
-      <div id="scroll-container-b" ref={scrollBRef}></div>
-    </div>
-  );
+return React.createElement(
+  React.Fragment,
+  null,
+  React.createElement('h1', null, `${teamNumber} - ${teamName}`),
+  React.createElement('h2', null, eventName),
+  error ? React.createElement('p', null, 'Error fetching data') : React.createElement('p', null, 'Data loaded successfully'),
+  React.createElement('div', { id: 'scroll-container-a', ref: scrollARef }),
+  React.createElement('div', { id: 'scroll-container-b', ref: scrollBRef })
+);
 };
 
 export default FTCMatchTracker;
