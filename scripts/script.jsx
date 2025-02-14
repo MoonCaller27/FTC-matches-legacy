@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+
 
 const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
   const [teamSchedule, setTeamSchedule] = useState([]);
