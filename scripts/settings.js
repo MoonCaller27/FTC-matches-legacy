@@ -1,14 +1,16 @@
+import { useEffect, useState } from "react";
+
 const Settings = () => {
-  const [username, setUsername] = useState('');
-  const [token, setToken] = useState('');
+  const [username, setUsername] = useState("");
+  const [token, setToken] = useState("");
   const [refresh, setRefresh] = useState(30);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     chrome.storage.sync.get(
       {
-        username: '',
-        token: '',
+        username: "",
+        token: "",
         refresh: 30,
       },
       (items) => {
@@ -22,63 +24,55 @@ const Settings = () => {
   const save = () => {
     chrome.storage.sync.set(
       {
-        username: username,
-        token: token,
-        refresh: refresh,
+        username,
+        token,
+        refresh,
       },
       () => {
-        setStatus('Saved!');
+        setStatus("Saved!");
         setTimeout(() => {
-          setStatus('');
+          setStatus("");
         }, 1000);
       }
     );
   };
 
-  return React.createElement(
-    'div',
-    null,
-    React.createElement('h1', null, 'Settings'),
-    React.createElement(
-      'label',
-      null,
-      'Username:',
-      React.createElement('input', {
-        type: 'text',
-        value: username,
-        onChange: (e) => setUsername(e.target.value),
-      })
-    ),
-    React.createElement('br', null),
-    React.createElement(
-      'label',
-      null,
-      'Token:',
-      React.createElement('input', {
-        type: 'text',
-        value: token,
-        onChange: (e) => setToken(e.target.value),
-      })
-    ),
-    React.createElement('br', null),
-    React.createElement(
-      'label',
-      null,
-      'Refresh Interval:',
-      React.createElement('input', {
-        type: 'number',
-        value: refresh,
-        onChange: (e) => setRefresh(Number(e.target.value)),
-      })
-    ),
-    React.createElement('br', null),
-    React.createElement(
-      'button',
-      { onClick: save },
-      'Save'
-    ),
-    status && React.createElement('p', null, status)
-  );
+  const container = document.createElement("div");
+  
+  const title = document.createElement("h1");
+  title.textContent = "Settings";
+  container.appendChild(title);
+  
+  const createInput = (labelText, value, onChange, type = "text") => {
+    const label = document.createElement("label");
+    label.textContent = labelText;
+    
+    const input = document.createElement("input");
+    input.type = type;
+    input.value = value;
+    input.oninput = (e) => onChange(e.target.value);
+    
+    label.appendChild(input);
+    container.appendChild(label);
+    container.appendChild(document.createElement("br"));
+  };
+  
+  createInput("Username:", username, setUsername);
+  createInput("Token:", token, setToken);
+  createInput("Refresh Interval:", refresh, (val) => setRefresh(Number(val)), "number");
+  
+  const button = document.createElement("button");
+  button.textContent = "Save";
+  button.onclick = save;
+  container.appendChild(button);
+  
+  if (status) {
+    const statusElem = document.createElement("p");
+    statusElem.textContent = status;
+    container.appendChild(statusElem);
+  }
+
+  return container;
 };
 
 export default Settings;
