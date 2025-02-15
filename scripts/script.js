@@ -66,9 +66,7 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
 
   useEffect(() => {
     updateScroll();
-  }, [teamSchedule, allSchedule, allResults, rankings]);
-
-  // Using document.createElement for rendering  
+  }, [teamSchedule, allSchedule, allResults, rankings]); 
   useEffect(() => {
     const container = document.createElement('div');
     container.appendChild(createHeader(`${teamNumber} - ${teamName}`, 'h1'));
@@ -88,7 +86,6 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
 
     const currentContainer = document.getElementById('match-tracker-container');
     if (currentContainer) {
-      // Clear previous content  
       currentContainer.innerHTML = '';
       currentContainer.appendChild(container);
     }
