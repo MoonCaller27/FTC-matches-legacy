@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export function TwoTeamMatch({ matchData, teamNumber, rankList }) {
   const [redScore, setRedScore] = useState(matchData.redScore);
   const [blueScore, setBlueScore] = useState(matchData.blueScore);
@@ -13,56 +15,56 @@ export function TwoTeamMatch({ matchData, teamNumber, rankList }) {
     return rankList[team.teamNumber] ? `#${rankList[team.teamNumber]} | ${team.teamName}` : team.teamName;
   };
 
-  const matchHeader = React.createElement(
-    "div",
-    { className: "match-header" },
-    React.createElement("div", { className: "info" }, matchData.description),
-    React.createElement("div", { className: "divider" }),
-    React.createElement(
-      "div",
-      {
-        className: `score ${redScore > blueScore ? "bold light-ftc-red" : "light-ftc-red"}`,
-      },
-      redScore ?? ""
-    ),
-    React.createElement("div", { className: "divider" }),
-    React.createElement(
-      "div",
-      {
-        className: `score ${blueScore > redScore ? "bold light-ftc-blue" : "light-ftc-blue"}`,
-      },
-      blueScore ?? ""
-    ),
-    React.createElement("div", { className: "divider" }),
-    React.createElement("div", { className: "info" }, status)
-  );
+  const container = document.createElement("div");
+  container.className = "match-container";
 
-  const matchStat = React.createElement(
-    "div",
-    { className: "match-stat" },
-    [matchData.redTeamA, matchData.redTeamB, matchData.blueTeamA, matchData.blueTeamB].map(
-      (team, index) =>
-        React.createElement(
-          React.Fragment,
-          { key: team.teamNumber },
-          React.createElement(
-            "div",
-            {
-              className: `team ${team.teamNumber === teamNumber ? "highlight" : ""} ${
-                index < 2 ? "dark-ftc-red" : "dark-ftc-blue"
-              }`,
-            },
-            getTeamRank(team)
-          ),
-          index !== 3 && React.createElement("div", { className: "divider" })
-        )
-    )
-  );
+  const matchHeader = document.createElement("div");
+  matchHeader.className = "match-header";
 
-  return React.createElement(
-    "div",
-    { className: "match-container" },
-    matchHeader,
-    matchStat
-  );
+  const info1 = document.createElement("span");
+  info1.className = "info";
+  info1.textContent = matchData.description;
+
+  const divider1 = document.createElement("span");
+  divider1.className = "divider";
+
+  const redScoreElem = document.createElement("span");
+  redScoreElem.className = `score ${redScore > blueScore ? "bold light-ftc-red" : "light-ftc-red"}`;
+  redScoreElem.textContent = redScore ?? "";
+
+  const divider2 = document.createElement("span");
+  divider2.className = "divider";
+
+  const blueScoreElem = document.createElement("span");
+  blueScoreElem.className = `score ${blueScore > redScore ? "bold light-ftc-blue" : "light-ftc-blue"}`;
+  blueScoreElem.textContent = blueScore ?? "";
+
+  const divider3 = document.createElement("span");
+  divider3.className = "divider";
+
+  const info2 = document.createElement("span");
+  info2.className = "info";
+  info2.textContent = status;
+
+  matchHeader.append(info1, divider1, redScoreElem, divider2, blueScoreElem, divider3, info2);
+  container.appendChild(matchHeader);
+
+  const matchStat = document.createElement("div");
+  matchStat.className = "match-stat";
+
+  [matchData.redTeamA, matchData.redTeamB, matchData.blueTeamA, matchData.blueTeamB].forEach((team, index) => {
+    const teamElement = document.createElement("span");
+    teamElement.className = `team ${team.teamNumber === teamNumber ? "highlight" : ""} ${index < 2 ? "dark-ftc-red" : "dark-ftc-blue"}`;
+    teamElement.textContent = getTeamRank(team);
+
+    matchStat.appendChild(teamElement);
+    if (index !== 3) {
+      const divider = document.createElement("span");
+      divider.className = "divider";
+      matchStat.appendChild(divider);
+    }
+  });
+
+  container.appendChild(matchStat);
+  return container;
 }
