@@ -1,5 +1,3 @@
-
-
 const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
   const [teamSchedule, setTeamSchedule] = useState([]);
   const [allSchedule, setAllSchedule] = useState([]);
@@ -7,7 +5,7 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
   const [rankings, setRankings] = useState({});
   const [error, setError] = useState(false);
   const [lastVal, setLastVal] = useState(-5);
-  
+
   const scrollARef = useRef(null);
   const scrollBRef = useRef(null);
 
@@ -32,7 +30,7 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
         setError(true);
         return;
       }
-      
+
       setError(false);
       setTeamSchedule(teamScheduleRes);
       setAllSchedule([...qualScheduleRes.schedule, ...playoffScheduleRes.schedule]);
@@ -66,15 +64,54 @@ const FTCMatchTracker = ({ teamNumber, eventCode, teamName, eventName }) => {
     }
   };
 
-return React.createElement(
-  React.Fragment,
-  null,
-  React.createElement('h1', null, `${teamNumber} - ${teamName}`),
-  React.createElement('h2', null, eventName),
-  error ? React.createElement('p', null, 'Error fetching data') : React.createElement('p', null, 'Data loaded successfully'),
-  React.createElement('div', { id: 'scroll-container-a', ref: scrollARef }),
-  React.createElement('div', { id: 'scroll-container-b', ref: scrollBRef })
-);
+  useEffect(() => {
+    updateScroll();
+  }, [teamSchedule, allSchedule, allResults, rankings]);
+
+  // Using document.createElement for rendering  
+  useEffect(() => {
+    const container = document.createElement('div');
+    container.appendChild(createHeader(`${teamNumber} - ${teamName}`, 'h1'));
+    container.appendChild(createHeader(eventName, 'h2'));
+    container.appendChild(createMessage());
+    
+    const scrollContainerA = document.createElement('div');
+    scrollContainerA.id = 'scroll-container-a';
+    scrollContainerA.ref = scrollARef;
+
+    const scrollContainerB = document.createElement('div');
+    scrollContainerB.id = 'scroll-container-b';
+    scrollContainerB.ref = scrollBRef;
+
+    container.appendChild(scrollContainerA);
+    container.appendChild(scrollContainerB);
+
+    const currentContainer = document.getElementById('match-tracker-container');
+    if (currentContainer) {
+      // Clear previous content  
+      currentContainer.innerHTML = '';
+      currentContainer.appendChild(container);
+    }
+
+    return () => {
+      if (currentContainer) {
+        currentContainer.innerHTML = ''; 
+      }
+    };
+  }, [teamSchedule, allSchedule, allResults, rankings, error]); 
+  const createHeader = (text, tag) => {
+    const element = document.createElement(tag);
+    element.textContent = text;
+    return element;
+  };
+
+  const createMessage = () => {
+    const message = document.createElement('p');
+    message.textContent = error ? 'Error fetching data' : 'Data loaded successfully';
+    return message;
+  };
+
+  return <div id="match-tracker-container"></div>;
 };
 
 export default FTCMatchTracker;
