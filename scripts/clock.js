@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
+
 const DigitalClock = () => {
-  const [time, setTime] = useState(new Date());
   const [digits, setDigits] = useState(["0", "0", "0", "0", "0", "0"]);
   const [colors, setColors] = useState(Array(6).fill("#ffc800"));
 
@@ -41,31 +42,20 @@ const DigitalClock = () => {
     return () => clearInterval(interval);
   }, [digits]);
 
-  const digitElements = digits.map((digit, index) =>
-    React.createElement(
-      "span",
-      {
-        key: index,
-        style: {
-          color: colors[index],
-          margin: "0 5px",
-        },
-      },
-      digit
-    )
-  );
+  const container = document.createElement("div");
+  container.id = "dt";
+  container.style.display = "flex";
+  container.style.fontSize = "2rem";
 
-  return React.createElement(
-    "div",
-    {
-      id: "dt",
-      style: {
-        display: "flex",
-        fontSize: "2rem",
-      },
-    },
-    ...digitElements
-  );
+  digits.forEach((digit, index) => {
+    const span = document.createElement("span");
+    span.style.color = colors[index];
+    span.style.margin = "0 5px";
+    span.textContent = digit;
+    container.appendChild(span);
+  });
+
+  return container;
 };
 
 export default DigitalClock;
