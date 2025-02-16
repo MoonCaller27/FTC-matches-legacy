@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export function TwoTeamMatch({ matchData, teamNumber, rankList }) {
   const [redScore, setRedScore] = useState(matchData.redScore);
   const [blueScore, setBlueScore] = useState(matchData.blueScore);
