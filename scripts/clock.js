@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 const DigitalClock = () => {
   const [digits, setDigits] = useState(["0", "0", "0", "0", "0", "0"]);
   const [colors, setColors] = useState(Array(6).fill("#ffc800"));
