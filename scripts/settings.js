@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 const Settings = () => {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
